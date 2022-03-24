@@ -1,14 +1,17 @@
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./style.css";
 import Header from "./components/Header";
-import Contact from "./components/Contact";
-import { Container, Row, Col } from "react-bootstrap";
+// import Contact from "./components/Contact";
+import Form from "./components/Form";
+
 function App() {
   return (
-    <div className="App">
-      <Header className="App-header"></Header>
-
-      <Contact />
+    <div>
+      <Header />
+      <Form></Form>
+      <Form></Form>
+      <Form></Form>
+      <Form></Form>
     </div>
   );
 }
