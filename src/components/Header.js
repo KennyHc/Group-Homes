@@ -32,12 +32,12 @@ function Header() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
-                Features
+                Adopt a child
               </a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">
-                Pricing
+                Help
               </a>
             </li>
             <li className="nav-item">
@@ -54,7 +54,7 @@ function Header() {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Dropdown
+                Learn More
               </a>
               <div className="dropdown-menu">
                 <a className="dropdown-item" href="#">
