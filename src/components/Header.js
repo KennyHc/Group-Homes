@@ -1,81 +1,37 @@
 import React from "react";
 //import PropTypes from "prop-types";
-
-Header.propTypes = {};
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Container from "react-bootstrap/Container";
+import { PersonPlusFill, PersonPlus, Table } from "react-bootstrap-icons";
 
 function Header() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          Group Homes
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarColor01"
-          aria-controls="navbarColor01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse" id="navbarColor01">
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <a className="nav-link active" href="#">
-                Home
-                <span className="visually-hidden">(current)</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Adopt a child
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Help
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                About
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Learn More
-              </a>
-              <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-                <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#">
-                  Separated link
-                </a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand href="/">
+          <img
+            src="/home.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt="Missing"
+          />{" "}
+          &nbsp; Group Homes
+        </Navbar.Brand>
+        <Nav className="me-auto">
+          <Nav.Link href="/can">
+            Register a candidate &nbsp; <PersonPlusFill />
+          </Nav.Link>
+          <Nav.Link href="/child">
+            Register a child &nbsp; <PersonPlus />
+          </Nav.Link>
+          <Nav.Link href="/tables">
+            Tables &nbsp; <Table />
+          </Nav.Link>
+        </Nav>
+      </Container>
+    </Navbar>
   );
 }
 
