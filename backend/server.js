@@ -1,7 +1,15 @@
 const express = require("express");
 const mysql = require("mysql");
+const cors = require("cors");
 
 const app = express();
+
+//allow cross origin access
+app.all("/*", function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 
 const db = mysql.createConnection({
   host: "group-homes-aws.coq4sg4wiosp.us-west-2.rds.amazonaws.com",
@@ -110,7 +118,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-const PORT = "3001";
+const PORT = "4000";
 
 app.listen(PORT, () => {
   console.log(`Started server on port ${PORT}`);

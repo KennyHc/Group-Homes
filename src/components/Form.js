@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 import Card from "react-bootstrap/Card";
@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 
+import axios from "axios";
+
 function FormComponent() {
   const [id, setId] = useState("");
   const [income, setIncome] = useState();
@@ -14,8 +16,34 @@ function FormComponent() {
   const [famType, setFamType] = useState();
   const [email, setEmail] = useState();
 
+  const endpoint = "http://localhost:4000/";
+
+  const api = axios.create({ baseURL: endpoint });
+
+  const logInfo = () => {
+    console.log("id: ", id);
+    console.log("income: ", income);
+    console.log("family type ", famType);
+    console.log("email: ", email);
+    console.log("experience: ", exp);
+  };
+
+  const sendRequest = async () => {
+    // const response = await axios({
+    //   method: "post",
+    //   url: endpoint + "/use/ForsterCareSystem",
+    // });
+    // console.log(response);
+    // return response;
+
+    const response = await api.get("/");
+    console.log(response.data);
+    return response.data;
+  };
+  useEffect(() => {}, []);
+
   return (
-    <Card border="secondary" style={{ width: "18rem", margin: "70px" }}>
+    <Card border="secondary" style={{ width: "25rem", margin: "70px" }}>
       <Card.Header>Register Candidate</Card.Header>
       <Card.Body>
         <Form>
@@ -93,17 +121,7 @@ function FormComponent() {
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group>
 
-          <Button
-            variant="primary"
-            type="submit"
-            onClick={() => {
-              console.log("id: ", id);
-              console.log("income: ", income);
-              console.log("family type ", famType);
-              console.log("email: ", email);
-              console.log("experience: ", exp);
-            }}
-          >
+          <Button variant="primary" onClick={() => sendRequest()}>
             Submit
           </Button>
         </Form>
