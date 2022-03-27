@@ -1,13 +1,16 @@
 const express = require("express");
 const mysql = require("mysql");
-const cors = require("cors");
 
+//let cors = require("cors");
 const app = express();
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 
 //allow cross origin access
 app.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   next();
 });
 
@@ -15,6 +18,7 @@ const db = mysql.createConnection({
   host: "group-homes-aws.coq4sg4wiosp.us-west-2.rds.amazonaws.com",
   user: "admin",
   password: "flatwhite",
+  database: "ForsterCareSystem",
 });
 
 db.connect((err) => {
@@ -23,6 +27,30 @@ db.connect((err) => {
   } else {
     console.log("Successful MySQL connection");
   }
+});
+
+app.post("/addCandidate", (req, res) => {
+  const candidate = {
+    id: req.body.id,
+    income: req.body.income,
+    exp: req.body.exp,
+    email: req.body.email,
+    famType: req.body.famType,
+  };
+  console.log(candidate);
+  let sql =
+    "INSERT INTO Candidates (ID, income, family_type, foster_experience, contact)\n" +
+    `VALUES (\"${candidate.id}\",
+    \"${candidate.income}\",
+    \"${candidate.famType}\",
+    \"${candidate.exp}\",
+    \"${candidate.email}\");\n`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+    console.log("Add candidate");
+  });
 });
 
 app.get("/createdb", (req, res) => {
@@ -123,3 +151,15 @@ const PORT = "4000";
 app.listen(PORT, () => {
   console.log(`Started server on port ${PORT}`);
 });
+
+/*
+Schema:
+
+CREATE TABLE `Candidates`(
+    `ID` INT NOT NULL UNIQUE PRIMARY KEY,
+    `income` INT,
+    `family_type` VARCHAR(55),
+    `foster_experience` VARCHAR(55),
+    `contact` VARCHAR(55) NOT NULL
+);
+ */

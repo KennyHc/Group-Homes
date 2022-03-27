@@ -28,18 +28,32 @@ function FormComponent() {
     console.log("experience: ", exp);
   };
 
-  const sendRequest = async () => {
-    // const response = await axios({
-    //   method: "post",
-    //   url: endpoint + "/use/ForsterCareSystem",
-    // });
-    // console.log(response);
-    // return response;
-
-    const response = await api.get("/");
+  const database = async () => {
+    const response = await api.get("/use/ForsterCareSystem");
     console.log(response.data);
     return response.data;
   };
+
+  const showTable = async (name) => {
+    const response = await api.get("/select/" + name);
+    console.log(response.data);
+    return response.data;
+  };
+
+  const addCandidate = async () => {
+    const connect = await database();
+    const response = await api.post("/addCandidate", {
+      id: id,
+      income: income,
+      email: email,
+      exp: exp,
+      famType: famType,
+    });
+    console.log(connect.data);
+    console.log(response.data);
+    return response.data;
+  };
+
   useEffect(() => {}, []);
 
   return (
@@ -121,7 +135,12 @@ function FormComponent() {
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group>
 
-          <Button variant="primary" onClick={() => sendRequest()}>
+          <Button
+            variant="primary"
+            onClick={async () => {
+              await addCandidate();
+            }}
+          >
             Submit
           </Button>
         </Form>
