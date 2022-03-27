@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Card } from "react-bootstrap";
+import axios from "axios";
 
 function Tables(props) {
+  const endpoint = "http://localhost:4000/";
+  const api = axios.create({ baseURL: endpoint });
+
+  const requestData = async (table) => {
+    const response = await api.get("/select/" + table);
+    //console.log(response.data);
+    return response.data;
+  };
+
+  const [candidateData, setCandidateData] = useState([]);
+  const [columns, setColumns] = useState([]);
+
+  //useEffect hook to render all the data on refresh
+  useEffect(async () => {
+    let candidateTable = await requestData("Candidates");
+    setCandidateData(candidateTable);
+    setColumns(Object.keys(candidateTable[0]));
+    console.log(candidateTable, "useEffect");
+  }, []);
+
   return (
     <div>
       <Card border="secondary" style={{ margin: "70px" }}>
@@ -9,30 +30,19 @@ function Tables(props) {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                {columns.map((key, i) => (
+                  <th key={i}>{key}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td colSpan={2}>Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              {candidateData.map((row, i) => (
+                <tr key={i}>
+                  {columns.map((column, j) => (
+                    <td key={j}>{row[column]}</td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Card.Body>

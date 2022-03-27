@@ -20,14 +20,6 @@ function FormComponent() {
 
   const api = axios.create({ baseURL: endpoint });
 
-  const logInfo = () => {
-    console.log("id: ", id);
-    console.log("income: ", income);
-    console.log("family type ", famType);
-    console.log("email: ", email);
-    console.log("experience: ", exp);
-  };
-
   const database = async () => {
     const response = await api.get("/use/ForsterCareSystem");
     console.log(response.data);
@@ -41,7 +33,7 @@ function FormComponent() {
   };
 
   const addCandidate = async () => {
-    const connect = await database();
+    //const connect = await database();
     const response = await api.post("/addCandidate", {
       id: id,
       income: income,
@@ -49,7 +41,7 @@ function FormComponent() {
       exp: exp,
       famType: famType,
     });
-    console.log(connect.data);
+    //console.log(connect.data);
     console.log(response.data);
     return response.data;
   };
