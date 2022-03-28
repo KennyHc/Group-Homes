@@ -3,6 +3,7 @@
 import "./bootstrap.css";
 import Header from "./components/Header";
 // import Contact from "./components/Contact";
+import ChildFormComponent from "./components/ChildForm";
 import Tables from "./components/Tables";
 import HomePage from "./components/HomePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/can" element={<FormComponent />} />
+          <Route path="/child" element={<ChildFormComponent />} />
           <Route path="/tables" element={<Tables />} />
         </Routes>
       </div>
