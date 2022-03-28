@@ -37,12 +37,17 @@ function ChildFormComponent() {
     "Other",
   ];
 
+  const addresses = [
+    "2366 Main Mall, Vancouver",
+    "6200 University Blvd, Vancouver",
+  ];
+
   const endpoint = "http://localhost:4000/";
 
   const api = axios.create({ baseURL: endpoint });
 
   const addChild = async () => {
-    const response = await api.post("/addCandidate", {
+    const response = await api.post("/addChild", {
       id: id,
       name: name,
       ethnicity: ethnicity,
@@ -132,13 +137,20 @@ function ChildFormComponent() {
 
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Group Home Address</Form.Label>
-            <Form.Control
-              type="address"
-              placeholder="Enter group home address"
+            <Form.Select
+              aria-label="Default select example"
+              value={gha}
               onChange={(e) => {
                 setGha(e.target.value);
               }}
-            />
+            >
+              <option>Select ethnicity</option>
+              {addresses.map((e) => (
+                <option key={e} value={e}>
+                  {e}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">

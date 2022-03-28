@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Card } from "react-bootstrap";
 import axios from "axios";
+import TableComponent from "./Table";
 
 function Tables(props) {
   const endpoint = "http://localhost:4000/";
@@ -13,40 +14,36 @@ function Tables(props) {
   };
 
   const [candidateData, setCandidateData] = useState([]);
-  const [columns, setColumns] = useState([]);
+  const [childData, setChildData] = useState([]);
 
   //useEffect hook to render all the data on refresh
-  useEffect(async () => {
-    let candidateTable = await requestData("Candidates");
-    setCandidateData(candidateTable);
-    setColumns(Object.keys(candidateTable[0]));
-    console.log(candidateTable, "useEffect");
+  useEffect(() => {
+    const getCandidateData = async () => {
+      const candidateTable = await requestData("Candidates");
+      setCandidateData(candidateTable);
+      console.log(candidateTable, "useEffect");
+      return candidateTable;
+    };
+
+    const getChildData = async () => {
+      let childTable = await requestData("Child_info_and_relations");
+      setChildData(childTable);
+      console.log(childTable, "useEffect");
+      return childTable;
+    };
+
+    getChildData().catch(console.error);
+    getCandidateData().catch(console.error);
   }, []);
 
   return (
     <div>
-      <Card border="secondary" style={{ margin: "70px" }}>
-        <Card.Body>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                {columns.map((key, i) => (
-                  <th key={i}>{key}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {candidateData.map((row, i) => (
-                <tr key={i}>
-                  {columns.map((column, j) => (
-                    <td key={j}>{row[column]}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Card.Body>
-      </Card>
+      {candidateData.length * childData.length > 0 && (
+        <div>
+          <TableComponent content={candidateData} />
+          <TableComponent content={childData} />
+        </div>
+      )}
     </div>
   );
 }

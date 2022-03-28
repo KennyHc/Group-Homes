@@ -53,6 +53,35 @@ app.post("/addCandidate", (req, res) => {
   });
 });
 
+app.post("/addChild", (req, res) => {
+  const child = {
+    id: req.body.id,
+    name: req.body.name,
+    ethnicity: req.body.ethnicity,
+    birthday: req.body.birthday,
+    gender: req.body.gender,
+    gha: req.body.gha,
+    startDate: req.body.startDate,
+  };
+  console.log(child);
+  let sql =
+    "INSERT INTO Child_info_and_relations (child_ID,name,ethnicity,birthday,gender,group_home_address,resident_start_date)\n" +
+    `VALUES (\"${child.id}\",
+    \"${child.name}\",
+   \"${child.ethnicity}\",
+   \"${child.birthday}\",
+   \"${child.gender}\",
+   \"${child.gha}\",
+    \"${child.startDate}\");\n`;
+
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+    console.log("Add child");
+  });
+});
+
 app.get("/createdb", (req, res) => {
   let sql = "CREATE DATABASE group_homes";
   db.query(sql, (err, result) => {
