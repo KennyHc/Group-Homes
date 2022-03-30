@@ -15,33 +15,57 @@ function Tables(props) {
 
   const [candidateData, setCandidateData] = useState([]);
   const [childData, setChildData] = useState([]);
+  const [removed, setRemoved] = useState(0);
+
+  const deleteCandidate = async (id) => {
+    if (id !== undefined) {
+      const response = await api.post("/delete", {
+        id: id,
+        table: "candidates",
+      });
+      setRemoved(removed + 1);
+      return response.data;
+    }
+  };
+
+  const deleteChild = async (id) => {
+    if (id !== undefined) {
+      const response = await api.post("/delete", { id: id, table: "child" });
+      setRemoved(removed + 1);
+      return response.data;
+    }
+  };
 
   //useEffect hook to render all the data on refresh
   useEffect(() => {
     const getCandidateData = async () => {
       const candidateTable = await requestData("Candidates");
       setCandidateData(candidateTable);
-      console.log(candidateTable, "useEffect");
+      console.log(candidateTable, "useEffectCandidates");
       return candidateTable;
     };
 
     const getChildData = async () => {
       let childTable = await requestData("Child_info_and_relations");
       setChildData(childTable);
-      console.log(childTable, "useEffect");
+      console.log(childTable, "useEffectChild");
       return childTable;
     };
 
     getChildData().catch(console.error);
     getCandidateData().catch(console.error);
-  }, []);
+  }, [removed]);
 
   return (
     <div>
-      {candidateData.length * childData.length > 0 && (
+      {candidateData.length > 0 && (
         <div>
-          <TableComponent content={candidateData} />
-          <TableComponent content={childData} />
+          <TableComponent content={candidateData} deleteRow={deleteCandidate} />
+        </div>
+      )}
+      {childData.length > 0 && (
+        <div>
+          <TableComponent content={childData} deleteRow={deleteChild} />
         </div>
       )}
     </div>

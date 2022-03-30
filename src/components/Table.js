@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Table, Card } from "react-bootstrap";
+import { Trash } from "react-bootstrap-icons";
+import { Button } from "react-bootstrap";
 
-function TableComponent({ content }) {
+function TableComponent({ content, deleteRow }) {
   //useEffect hook to render all the data on refresh
 
   const columns = Object.keys(content[0]);
@@ -16,6 +18,7 @@ function TableComponent({ content }) {
                 {columns.map((key, i) => (
                   <th key={i}>{key}</th>
                 ))}
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -24,6 +27,15 @@ function TableComponent({ content }) {
                   {columns.map((column, j) => (
                     <td key={j}>{row[column]}</td>
                   ))}
+                  <td className="justify-content-center">
+                    <Button className="btn-danger">
+                      <Trash
+                        onClick={async () => {
+                          await deleteRow(row[columns[0]]);
+                        }}
+                      />
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>

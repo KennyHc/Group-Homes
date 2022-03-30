@@ -53,6 +53,23 @@ app.post("/addCandidate", (req, res) => {
   });
 });
 
+app.post("/delete", (req, res) => {
+  let sql = "";
+
+  if (req.body.table === "candidates") {
+    sql = "DELETE FROM Candidates WHERE ID =" + req.body.id;
+  } else if (req.body.table === "child") {
+    sql = "DELETE FROM Child_info_and_relations WHERE child_ID =" + req.body.id;
+  }
+
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+    console.log("delete");
+  });
+});
+
 app.post("/addChild", (req, res) => {
   const child = {
     id: req.body.id,
