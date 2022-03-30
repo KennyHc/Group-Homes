@@ -49,7 +49,11 @@ function FormComponent() {
   useEffect(() => {}, []);
 
   return (
-    <Card border="secondary" style={{ width: "25rem", margin: "70px" }}>
+    <Card
+      border="secondary"
+      className="align-content-center"
+      style={{ width: "25rem", margin: "70px" }}
+    >
       <Card.Header>Register Candidate</Card.Header>
       <Card.Body>
         <Form>

@@ -3,7 +3,12 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
-import { PersonPlusFill, PersonPlus, Table } from "react-bootstrap-icons";
+import {
+  PersonPlusFill,
+  PersonPlus,
+  Table,
+  Search,
+} from "react-bootstrap-icons";
 
 function Header() {
   return (
@@ -28,6 +33,9 @@ function Header() {
           </Nav.Link>
           <Nav.Link href="/tables">
             Tables &nbsp; <Table />
+          </Nav.Link>
+          <Nav.Link href="/queries">
+            Queries &nbsp; <Search />
           </Nav.Link>
         </Nav>
       </Container>

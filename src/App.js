@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import ChildFormComponent from "./components/ChildForm";
 import Tables from "./components/Tables";
 import HomePage from "./components/HomePage";
+import Queries from "./components/Queries";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import FormComponent from "./components/Form";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/can" element={<FormComponent />} />
           <Route path="/child" element={<ChildFormComponent />} />
           <Route path="/tables" element={<Tables />} />
+          <Route path="/queries" element={<Queries />} />
         </Routes>
       </div>
     </Router>

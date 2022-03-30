@@ -99,6 +99,15 @@ app.post("/addChild", (req, res) => {
   });
 });
 
+app.get("/query/max/income", (req, res) => {
+  let sql = "SELECT MAX(Income) FROM Candidates";
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  });
+});
+
 app.get("/createdb", (req, res) => {
   let sql = "CREATE DATABASE group_homes";
   db.query(sql, (err, result) => {
@@ -190,6 +199,16 @@ app.get("/add/:name/:contact", (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("Hello World");
+});
+
+app.post("/query", (req, res) => {
+  let sql = req.body.query;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+    console.log("query");
+  });
 });
 
 const PORT = "4000";
