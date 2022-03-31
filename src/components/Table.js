@@ -3,14 +3,33 @@ import { Table, Card } from "react-bootstrap";
 import { Trash } from "react-bootstrap-icons";
 import { Button } from "react-bootstrap";
 
-function TableComponent({ content, deleteRow }) {
+function TableComponent({ content, deleteRow, title, noDeleteCol }) {
   //useEffect hook to render all the data on refresh
 
   const columns = Object.keys(content[0]);
 
+  const deleteColumn = (rowToDelete) => {
+    if (noDeleteCol) {
+      return;
+    } else {
+      return (
+        <td className="justify-content-center">
+          <Button className="btn-danger">
+            <Trash
+              onClick={async () => {
+                await deleteRow(rowToDelete);
+              }}
+            />
+          </Button>
+        </td>
+      );
+    }
+  };
+
   return (
     <div>
       <Card border="secondary" style={{ margin: "70px" }}>
+        <Card.Header>{title}</Card.Header>
         <Card.Body>
           <Table striped bordered hover>
             <thead>
@@ -18,7 +37,7 @@ function TableComponent({ content, deleteRow }) {
                 {columns.map((key, i) => (
                   <th key={i}>{key}</th>
                 ))}
-                <th>Delete</th>
+                {!noDeleteCol && <th>Delete</th>}
               </tr>
             </thead>
             <tbody>
@@ -27,15 +46,7 @@ function TableComponent({ content, deleteRow }) {
                   {columns.map((column, j) => (
                     <td key={j}>{row[column]}</td>
                   ))}
-                  <td className="justify-content-center">
-                    <Button className="btn-danger">
-                      <Trash
-                        onClick={async () => {
-                          await deleteRow(row[columns[0]]);
-                        }}
-                      />
-                    </Button>
-                  </td>
+                  {deleteColumn(row[columns[0]])}
                 </tr>
               ))}
             </tbody>

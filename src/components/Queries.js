@@ -32,6 +32,15 @@ function Queries(props) {
       query: queryCandidatesWithExp(exp),
     });
     setQueryData(res.data);
+    let candidateTitle = "Candidates";
+    if (exp == "none") {
+      candidateTitle += " with no experience";
+    } else if (exp == "one") {
+      candidateTitle += " that have raised a child before";
+    } else if (exp == "many") {
+      candidateTitle += " that have raised many children before";
+    }
+    setTitle(candidateTitle);
     console.log(queryData);
     setSelectedQuery("candidates");
   };
@@ -51,9 +60,21 @@ function Queries(props) {
         "SELECT family_type, MAX(INCOME) as MaxIncome FROM Candidates GROUP BY family_type;",
     });
     setQueryData(res.data);
+    setTitle("Max income for each family type");
     console.log(res.data);
     setSelectedQuery("candidates");
   };
+
+  const querySelectColumnFrom = async (column, tableName) => {
+    const res = await api.post("/query", {
+      query: `SELECT ${column} FROM ${tableName};`,
+    });
+    setQueryData(res.data);
+    setTitle(`${column} column from ${tableName} table`);
+    console.log(res.data);
+    setSelectedQuery("candidates");
+  };
+
   /**
    *
    *
@@ -64,6 +85,7 @@ function Queries(props) {
   const [queryData, setQueryData] = useState([]);
   const [maxIncome, setMaxIncome] = useState(0);
   const [selectedQuery, setSelectedQuery] = useState("");
+  const [title, setTitle] = useState("");
 
   const numberDataComponent = () => (
     <Card border="secondary" style={{ width: "10rem" }}>
@@ -82,7 +104,11 @@ function Queries(props) {
 
   // const candidateTable = <TableComponent content={queryData}></TableComponent>;
   const candidateTable = (
-    <TableComponent content={queryData} deleteRow={() => {}}></TableComponent>
+    <TableComponent
+      content={queryData}
+      title={title}
+      noDeleteCol={true}
+    ></TableComponent>
   );
 
   const dropDown = (text1, text2, options, actions) => (
@@ -148,10 +174,41 @@ function Queries(props) {
           </Dropdown.Toggle>
 
           <Dropdown.Menu variant="dark">
-            <Dropdown.Item>ID</Dropdown.Item>
-            <Dropdown.Item>Income</Dropdown.Item>
-            <Dropdown.Item>Experience</Dropdown.Item>
-            <Dropdown.Item>Emails</Dropdown.Item>
+            <Dropdown.Item
+              onClick={async () => {
+                await querySelectColumnFrom("ID", "Candidates");
+              }}
+            >
+              ID
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={async () => {
+                await querySelectColumnFrom("income", "Candidates");
+              }}
+            >
+              Income
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={async () => {
+                await querySelectColumnFrom("foster_experience", "Candidates");
+              }}
+            >
+              Experience
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={async () => {
+                await querySelectColumnFrom("contact", "Candidates");
+              }}
+            >
+              Emails
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={async () => {
+                await querySelectColumnFrom("family_type", "Candidates");
+              }}
+            >
+              Family type
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 

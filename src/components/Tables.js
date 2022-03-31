@@ -60,12 +60,20 @@ function Tables(props) {
     <div>
       {candidateData.length > 0 && (
         <div>
-          <TableComponent content={candidateData} deleteRow={deleteCandidate} />
+          <TableComponent
+            content={candidateData}
+            title={"Candidate Data"}
+            deleteRow={deleteCandidate}
+          />
         </div>
       )}
       {childData.length > 0 && (
         <div>
-          <TableComponent content={childData} deleteRow={deleteChild} />
+          <TableComponent
+            content={childData}
+            title={"Children Data"}
+            deleteRow={deleteChild}
+          />
         </div>
       )}
     </div>
