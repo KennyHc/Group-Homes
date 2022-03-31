@@ -21,3 +21,17 @@ VALUES (74361,'Juan','Asian','2006-09-01','Man','6200 University Blvd, Vancouver
 
 INSERT INTO Child_info_and_relations (child_ID, name, ethnicity, birthday, gender, group_home_address, resident_start_date)
 VALUES (30123,'Alice','White','2005-12-01','Woman','2366 Main Mall, Vancouver','2014-09-01');
+
+
+
+SELECT G.name FROM Group_Homes G
+WHERE NOT EXISTS(
+        (SELECT * FROM Child_info_and_relations C2
+         WHERE C2.ethnicity='Asian' and
+                 C2.child_ID NOT IN(
+                 SELECT C.child_ID FROM Child_info_and_relations C
+                 WHERE C.ethnicity ='Asian' and
+                         C.group_home_address = G.address
+             )))
+  and EXISTS(SELECT * FROM Child_info_and_relations C3
+             WHERE C3.ethnicity='Asian');

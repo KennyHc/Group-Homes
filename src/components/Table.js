@@ -6,8 +6,15 @@ import { Button } from "react-bootstrap";
 function TableComponent({ content, deleteRow, title, noDeleteCol }) {
   //useEffect hook to render all the data on refresh
 
+  if (content.length === 0) {
+    return (
+      <Card border="secondary" style={{ margin: "70px" }}>
+        <Card.Header>{title}</Card.Header>
+        <Card.Body>Empty Set</Card.Body>
+      </Card>
+    );
+  }
   const columns = Object.keys(content[0]);
-
   const deleteColumn = (rowToDelete) => {
     if (noDeleteCol) {
       return;

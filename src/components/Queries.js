@@ -9,6 +9,15 @@ function Queries(props) {
   const endpoint = "http://localhost:4000/";
   const api = axios.create({ baseURL: endpoint });
 
+  const ethnicities = [
+    "American Indian or Alaska Native",
+    "Asian",
+    "Black or African American",
+    "Native Hawaiian or Other Pacific Islander",
+    "Hispanic or Latino",
+    "White",
+  ];
+
   const requestData = async (table) => {
     const response = await api.get("/select/" + table);
     //console.log(response.data);
@@ -85,6 +94,26 @@ function Queries(props) {
     });
     setQueryData(res.data);
     setTitle("Children from Group Home: " + home);
+    console.log(res.data);
+    setSelectedQuery("candidates");
+  };
+
+  const queryHomesEthnicity = async (ethnicity) => {
+    const res = await api.post("/query", {
+      query:
+        "SELECT G.name FROM Group_Homes G\n" +
+        "WHERE NOT EXISTS(" +
+        "(SELECT * FROM Child_info_and_relations C2 " +
+        `WHERE C2.ethnicity=\"${ethnicity}\" and ` +
+        "C2.child_ID NOT IN( " +
+        "SELECT C.child_ID FROM Child_info_and_relations C " +
+        `WHERE C.ethnicity =\"${ethnicity}\"` +
+        " and C.group_home_address = G.address)))" +
+        "and EXISTS(SELECT * FROM Child_info_and_relations C3\n" +
+        `       WHERE C3.ethnicity=\"${ethnicity}\");`,
+    });
+    setQueryData(res.data);
+    setTitle("Group homes that foster all " + ethnicity + " Children");
     console.log(res.data);
     setSelectedQuery("candidates");
   };
@@ -250,6 +279,29 @@ function Queries(props) {
             >
               Foster Home
             </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Dropdown style={{ margin: "10px" }}>
+          <Dropdown.Toggle
+            id="dropdown-button-dark-example1"
+            variant="secondary"
+          >
+            Find Group Homes that
+            <br /> foster all
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu variant="dark">
+            {ethnicities.map((e) => (
+              <Dropdown.Item
+                key={e}
+                onClick={async () => {
+                  await queryHomesEthnicity(e);
+                }}
+              >
+                {e}
+              </Dropdown.Item>
+            ))}
           </Dropdown.Menu>
         </Dropdown>
 
