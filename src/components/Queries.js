@@ -75,6 +75,20 @@ function Queries(props) {
     setSelectedQuery("candidates");
   };
 
+  const queryFindChildrenIn = async (home) => {
+    const res = await api.post("/query", {
+      query:
+        "SELECT *,Child_info_and_relations.name as childName FROM Child_info_and_relations, " +
+        "Group_Homes WHERE" +
+        " group_home_address=address and Group_Homes.name=" +
+        `\"${home}\";`,
+    });
+    setQueryData(res.data);
+    setTitle("Children from Group Home: " + home);
+    console.log(res.data);
+    setSelectedQuery("candidates");
+  };
+
   /**
    *
    *
@@ -222,8 +236,20 @@ function Queries(props) {
           </Dropdown.Toggle>
 
           <Dropdown.Menu variant="dark">
-            <Dropdown.Item>Child Care</Dropdown.Item>
-            <Dropdown.Item>Foster Home</Dropdown.Item>
+            <Dropdown.Item
+              onClick={async () => {
+                await queryFindChildrenIn("Child Care");
+              }}
+            >
+              Child Care
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={async () => {
+                await queryFindChildrenIn("Foster Home");
+              }}
+            >
+              Foster Home
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 
