@@ -9,12 +9,12 @@ function Tables(props) {
 
   const requestData = async (table) => {
     const response = await api.get("/select/" + table);
-    //console.log(response.data);
     return response.data;
   };
 
   const [candidateData, setCandidateData] = useState([]);
   const [childData, setChildData] = useState([]);
+  const [fosterData, setFosterData] = useState([]);
   const [removed, setRemoved] = useState(0);
 
   const deleteCandidate = async (id) => {
@@ -52,8 +52,16 @@ function Tables(props) {
       return childTable;
     };
 
+    const getFostersFromData = async () => {
+      let fosterTable = await requestData("Fosters_From");
+      setFosterData(fosterTable);
+      console.log(fosterTable, "useEffectFosterFrom");
+      return fosterTable;
+    };
+
     getChildData().catch(console.error);
     getCandidateData().catch(console.error);
+    getFostersFromData().catch(console.error);
   }, [removed]);
 
   return (
@@ -73,6 +81,15 @@ function Tables(props) {
             content={childData}
             title={"Children Data"}
             deleteRow={deleteChild}
+          />
+        </div>
+      )}
+      {childData.length > 0 && (
+        <div>
+          <TableComponent
+            content={fosterData}
+            title={"Foster Relation Data"}
+            noDeleteCol={true}
           />
         </div>
       )}

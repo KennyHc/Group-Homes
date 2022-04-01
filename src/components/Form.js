@@ -47,6 +47,9 @@ function FormComponent() {
     return response.data;
   };
 
+  const familyTypes = ["single", "common_law", "divorced", "married", "other"];
+  const familyLabels = ["Single", "Common Law", "Divorced", "Married", "Other"];
+
   useEffect(() => {}, []);
 
   return (
@@ -62,7 +65,8 @@ function FormComponent() {
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Government Issued ID</Form.Label>
               <Form.Control
-                placeholder="Enter email"
+                type="number"
+                placeholder="Enter ID"
                 onChange={(e) => {
                   setId(e.target.value);
                 }}
@@ -126,23 +130,29 @@ function FormComponent() {
                     }}
                   >
                     <option>Select family type</option>
-                    <option value="single">Single parent</option>
-                    <option value="common_law">Common law</option>
-                    <option value="divorced">Divorced</option>
-                    <option value="other">Other</option>
+                    {familyTypes.map((e, i) => (
+                      <option value={e} key={i}>
+                        {familyLabels[i]}
+                      </option>
+                    ))}
                   </Form.Select>
                 </Form.Group>
               </Col>
             </Row>
 
-            <Button
-              variant="primary"
-              onClick={async () => {
-                await addCandidate();
-              }}
-            >
-              Submit
-            </Button>
+            <Row>
+              <Col>
+                <Button
+                  variant="info"
+                  className="float-end"
+                  onClick={async () => {
+                    await addCandidate();
+                  }}
+                >
+                  Submit
+                </Button>
+              </Col>
+            </Row>
           </Form>
         </Card.Body>
       </Card>

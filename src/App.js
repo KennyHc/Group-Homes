@@ -12,6 +12,7 @@ import Queries from "./components/Queries";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import FormComponent from "./components/Form";
+import FosterFormComponent from "./components/FosterForm";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/child" element={<ChildFormComponent />} />
           <Route path="/tables" element={<Tables />} />
           <Route path="/queries" element={<Queries />} />
+          <Route path="/adopt" element={<FosterFormComponent />} />
         </Routes>
       </div>
     </Router>

@@ -53,6 +53,20 @@ app.post("/addCandidate", (req, res) => {
   });
 });
 
+app.post("/addRelation", (req, res) => {
+  let sql =
+    "INSERT INTO Fosters_From (candidate_id,child_ID,date)\n" +
+    `VALUES (\"${req.body.candidateId}\",
+    \"${req.body.childId}\",
+    \"${req.body.date}\");\n`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+    console.log("Add relation");
+  });
+});
+
 app.post("/delete", (req, res) => {
   let sql = "";
 
@@ -79,17 +93,19 @@ app.post("/addChild", (req, res) => {
     gender: req.body.gender,
     gha: req.body.gha,
     startDate: req.body.startDate,
+    endDate: req.body.endDate,
   };
   console.log(child);
   let sql =
-    "INSERT INTO Child_info_and_relations (child_ID,name,ethnicity,birthday,gender,group_home_address,resident_start_date)\n" +
+    "INSERT INTO Child_info_and_relations (child_ID,name,ethnicity,birthday,gender,group_home_address,resident_start_date, resident_end_date )\n" +
     `VALUES (\"${child.id}\",
     \"${child.name}\",
    \"${child.ethnicity}\",
    \"${child.birthday}\",
    \"${child.gender}\",
    \"${child.gha}\",
-    \"${child.startDate}\");\n`;
+   \"${child.startDate}\",
+    \"${child.endDate}\");\n`;
 
   db.query(sql, (err, result) => {
     if (err) throw err;

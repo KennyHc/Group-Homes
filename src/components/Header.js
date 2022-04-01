@@ -8,6 +8,7 @@ import {
   PersonPlus,
   Table,
   Search,
+  PeopleFill,
 } from "react-bootstrap-icons";
 
 function Header() {
@@ -30,6 +31,9 @@ function Header() {
           </Nav.Link>
           <Nav.Link href="/child">
             Register a child &nbsp; <PersonPlus />
+          </Nav.Link>
+          <Nav.Link href="/adopt">
+            Register adoption &nbsp; <PeopleFill />
           </Nav.Link>
           <Nav.Link href="/tables">
             Tables &nbsp; <Table />

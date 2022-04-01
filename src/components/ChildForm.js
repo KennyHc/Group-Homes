@@ -18,6 +18,7 @@ function ChildFormComponent() {
   const [gender, setGender] = useState();
   const [gha, setGha] = useState(); //groupHomeAddress
   const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
   const ethnicities = [
     "American Indian or Alaska Native",
@@ -56,6 +57,7 @@ function ChildFormComponent() {
       gender: gender,
       gha: gha,
       startDate: startDate,
+      endDate: endDate,
     });
     //console.log(connect.data);
     console.log(response.data);
@@ -75,6 +77,7 @@ function ChildFormComponent() {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Government Issued ID</Form.Label>
                   <Form.Control
+                    type="number"
                     placeholder="Enter Id"
                     onChange={(e) => {
                       setId(e.target.value);
@@ -86,7 +89,7 @@ function ChildFormComponent() {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
-                    placeholder="Enter Id"
+                    placeholder="Enter name"
                     onChange={(e) => {
                       setName(e.target.value);
                     }}
@@ -168,29 +171,46 @@ function ChildFormComponent() {
               </Col>
             </Row>
 
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Start Date</Form.Label>
-              <Form.Control
-                type="date"
-                placeholder="Enter start date"
-                onChange={(e) => {
-                  setStartDate(e.target.value);
-                }}
-              />
-            </Form.Group>
+            <Row>
+              <Col>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Start Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    placeholder="Enter start date"
+                    onChange={(e) => {
+                      setStartDate(e.target.value);
+                    }}
+                  />
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>End Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    placeholder="Enter end date"
+                    onChange={(e) => {
+                      setEndDate(e.target.value);
+                    }}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group>
-
-            <Button
-              variant="primary"
-              onClick={async () => {
-                await addChild();
-              }}
-            >
-              Submit
-            </Button>
+            <Row>
+              <Col>
+                <Button
+                  variant="info"
+                  className="float-end"
+                  onClick={async () => {
+                    await addChild();
+                  }}
+                >
+                  Submit
+                </Button>
+              </Col>
+            </Row>
           </Form>
         </Card.Body>
       </Card>

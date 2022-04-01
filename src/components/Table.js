@@ -51,7 +51,9 @@ function TableComponent({ content, deleteRow, title, noDeleteCol }) {
               {content.map((row, i) => (
                 <tr key={i}>
                   {columns.map((column, j) => (
-                    <td key={j}>{row[column]}</td>
+                    <td className="text-center" key={j}>
+                      {row[column]}
+                    </td>
                   ))}
                   {deleteColumn(row[columns[0]])}
                 </tr>
