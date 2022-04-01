@@ -12,7 +12,7 @@ import {
 
 function Header() {
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="white" variant="light">
       <Container>
         <Navbar.Brand href="/">
           <img

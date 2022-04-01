@@ -4,6 +4,7 @@ import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Container } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 
@@ -64,121 +65,123 @@ function ChildFormComponent() {
   useEffect(() => {}, []);
 
   return (
-    <Card border="secondary" style={{ width: "25rem", margin: "70px" }}>
-      <Card.Header>Register Foster Child</Card.Header>
-      <Card.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Government Issued ID</Form.Label>
-            <Form.Control
-              placeholder="Enter Id"
-              onChange={(e) => {
-                setId(e.target.value);
-              }}
-            />
-          </Form.Group>
+    <Container className="d-flex justify-content-center">
+      <Card border="secondary" style={{ width: "25rem", margin: "70px" }}>
+        <Card.Header>Register Foster Child</Card.Header>
+        <Card.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Government Issued ID</Form.Label>
+              <Form.Control
+                placeholder="Enter Id"
+                onChange={(e) => {
+                  setId(e.target.value);
+                }}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              placeholder="Enter Id"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                placeholder="Enter Id"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Date of birth</Form.Label>
-            <Form.Control
-              type="date"
-              placeholder="Enter group home address"
-              onChange={(e) => {
-                setBirthday(e.target.value);
-              }}
-            />
-          </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Date of birth</Form.Label>
+              <Form.Control
+                type="date"
+                placeholder="Enter group home address"
+                onChange={(e) => {
+                  setBirthday(e.target.value);
+                }}
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Ethnicity</Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              value={ethnicity}
-              onChange={(e) => {
-                setEthnicity(e.target.value);
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Ethnicity</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                value={ethnicity}
+                onChange={(e) => {
+                  setEthnicity(e.target.value);
+                }}
+              >
+                <option>Select ethnicity</option>
+                {ethnicities.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Gender</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                value={gender}
+                onChange={(e) => {
+                  setGender(e.target.value);
+                }}
+              >
+                <option>Select gender</option>
+                {genders.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Group Home Address</Form.Label>
+              <Form.Select
+                aria-label="Default select example"
+                value={gha}
+                onChange={(e) => {
+                  setGha(e.target.value);
+                }}
+              >
+                <option>Select ethnicity</option>
+                {addresses.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                placeholder="Enter start date"
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                }}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+
+            <Button
+              variant="primary"
+              onClick={async () => {
+                await addChild();
               }}
             >
-              <option>Select ethnicity</option>
-              {ethnicities.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Gender</Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              value={gender}
-              onChange={(e) => {
-                setGender(e.target.value);
-              }}
-            >
-              <option>Select gender</option>
-              {genders.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Group Home Address</Form.Label>
-            <Form.Select
-              aria-label="Default select example"
-              value={gha}
-              onChange={(e) => {
-                setGha(e.target.value);
-              }}
-            >
-              <option>Select ethnicity</option>
-              {addresses.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Start Date</Form.Label>
-            <Form.Control
-              type="date"
-              placeholder="Enter start date"
-              onChange={(e) => {
-                setStartDate(e.target.value);
-              }}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-
-          <Button
-            variant="primary"
-            onClick={async () => {
-              await addChild();
-            }}
-          >
-            Submit
-          </Button>
-        </Form>
-      </Card.Body>
-    </Card>
+              Submit
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }
 

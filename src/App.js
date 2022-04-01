@@ -1,6 +1,8 @@
 // import logo from "./logo.svg";
 //import "./style.css";
-import "./bootstrap.css";
+// import "./bootstrap.css";
+import "./boot2.css";
+
 import Header from "./components/Header";
 // import Contact from "./components/Contact";
 import ChildFormComponent from "./components/ChildForm";
