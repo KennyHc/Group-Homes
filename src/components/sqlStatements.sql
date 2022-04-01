@@ -35,3 +35,12 @@ WHERE NOT EXISTS(
              )))
   and EXISTS(SELECT * FROM Child_info_and_relations C3
              WHERE C3.ethnicity='Asian');
+
+
+CREATE TABLE `Candidates`(
+                             `ID` INT NOT NULL UNIQUE PRIMARY KEY,
+                             `income` INT,
+                             `family_type` VARCHAR(55),
+                             `foster_experience` VARCHAR(55),
+                             `contact` VARCHAR(55) NOT NULL
+);

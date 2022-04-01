@@ -10,7 +10,7 @@ function HomePage(props) {
   ];
 
   return (
-    <Carousel className="d-flex">
+    <Carousel className="d-flex customHeight">
       {text.map((e, i) => (
         <Carousel.Item key={i}>
           <Image

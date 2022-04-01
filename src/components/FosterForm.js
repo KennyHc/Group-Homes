@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
+import AddPage from "./AddPage";
 
 import axios from "axios";
 import { Container, Col, Row } from "react-bootstrap";
@@ -16,6 +17,7 @@ function FosterFormComponent() {
   const [date, setDate] = useState();
   const [childIds, setChildIds] = useState([]);
   const [candidateIds, setCandidateIds] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
   const endpoint = "http://localhost:4000/";
 
@@ -30,6 +32,9 @@ function FosterFormComponent() {
     });
     //console.log(connect.data);
     console.log(response.data);
+    if (response.status === 200) {
+      setSubmitted(true);
+    }
     return response.data;
   };
 
@@ -53,7 +58,14 @@ function FosterFormComponent() {
 
     getChildIds().catch((e) => e.message);
     getCandidateIds().catch((e) => e.message);
-  }, []);
+  }, [submitted]);
+
+  if (submitted)
+    return (
+      <AddPage
+        message={`Successfully let candidate #${candidateId} adopt child #${childId} !`}
+      />
+    );
 
   return (
     <Container className="d-flex justify-content-center">

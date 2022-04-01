@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-
 import axios from "axios";
 import { Container, Col, Row } from "react-bootstrap";
+import AddPage from "./AddPage";
 
 function FormComponent() {
   const [id, setId] = useState("");
@@ -16,22 +14,11 @@ function FormComponent() {
   const [exp, setExp] = useState();
   const [famType, setFamType] = useState();
   const [email, setEmail] = useState();
+  const [submitted, setSubmitted] = useState(false);
 
   const endpoint = "http://localhost:4000/";
 
   const api = axios.create({ baseURL: endpoint });
-
-  const database = async () => {
-    const response = await api.get("/use/ForsterCareSystem");
-    console.log(response.data);
-    return response.data;
-  };
-
-  const showTable = async (name) => {
-    const response = await api.get("/select/" + name);
-    console.log(response.data);
-    return response.data;
-  };
 
   const addCandidate = async () => {
     //const connect = await database();
@@ -44,13 +31,19 @@ function FormComponent() {
     });
     //console.log(connect.data);
     console.log(response.data);
+    if (response.status === 200) setSubmitted(true);
     return response.data;
   };
 
   const familyTypes = ["single", "common_law", "divorced", "married", "other"];
   const familyLabels = ["Single", "Common Law", "Divorced", "Married", "Other"];
 
-  useEffect(() => {}, []);
+  useEffect(() => {}, [submitted]);
+
+  if (submitted)
+    return (
+      <AddPage message={`Successfully added candidate #${id} ${email} !`} />
+    );
 
   return (
     <Container className="d-flex justify-content-center">

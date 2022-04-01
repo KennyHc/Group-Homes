@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import { Container, Row, Col } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
+import AddPage from "./AddPage";
 
 import axios from "axios";
 
@@ -16,9 +17,11 @@ function ChildFormComponent() {
   const [ethnicity, setEthnicity] = useState();
   const [birthday, setBirthday] = useState();
   const [gender, setGender] = useState();
-  const [gha, setGha] = useState(); //groupHomeAddress
+  const [gha, setGha] = useState(""); //groupHomeAddress
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [submitted, setSubmitted] = useState(false);
+  const [msg, setMsg] = useState("");
 
   const ethnicities = [
     "American Indian or Alaska Native",
@@ -61,10 +64,21 @@ function ChildFormComponent() {
     });
     //console.log(connect.data);
     console.log(response.data);
+    if (response.status === 200) {
+      setMsg(`Successfully added ${name} into our system!`);
+    }
+    if (gha === "") {
+      setMsg(
+        `Unsuccessful operation, please specify a valid group home address!`
+      );
+    }
+    setSubmitted(true);
     return response.data;
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {}, [submitted]);
+
+  if (submitted) return <AddPage message={msg}></AddPage>;
 
   return (
     <Container className="d-flex justify-content-center">

@@ -23,7 +23,7 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) {
-    throw err;
+    console.log(err);
   } else {
     console.log("Successful MySQL connection");
   }
@@ -44,9 +44,16 @@ app.post("/addCandidate", (req, res) => {
     \"${candidate.income}\",
     \"${candidate.famType}\",
     \"${candidate.exp}\",
-    \"${candidate.email}\");\n`;
+    \"${candidate.email}\")
+     ON DUPLICATE KEY UPDATE 
+     id=\"${candidate.id}\",
+     income=\"${candidate.income}\",
+     family_type=\"${candidate.famType}\",
+     foster_experience=\"${candidate.exp}\",
+     contact=\"${candidate.email}\"
+     ;\n`;
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Add candidate");
@@ -60,7 +67,7 @@ app.post("/addRelation", (req, res) => {
     \"${req.body.childId}\",
     \"${req.body.date}\");\n`;
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Add relation");
@@ -77,7 +84,7 @@ app.post("/delete", (req, res) => {
   }
 
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("delete");
@@ -105,10 +112,20 @@ app.post("/addChild", (req, res) => {
    \"${child.gender}\",
    \"${child.gha}\",
    \"${child.startDate}\",
-    \"${child.endDate}\");\n`;
+    \"${child.endDate}\")
+      ON DUPLICATE KEY UPDATE 
+      child_ID=\"${child.id}\",
+      name=\"${child.name}\",
+      ethnicity=\"${child.ethnicity}\",
+      birthday=\"${child.birthday}\",
+      gender=\"${child.gender}\",
+      group_home_address=\"${child.gha}\",
+      resident_start_date=\"${child.startDate}\",
+      resident_end_date=\"${child.endDate}\"
+      ;\n`;
 
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Add child");
@@ -118,7 +135,7 @@ app.post("/addChild", (req, res) => {
 app.get("/query/max/income", (req, res) => {
   let sql = "SELECT MAX(Income) FROM Candidates";
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
   });
@@ -127,7 +144,7 @@ app.get("/query/max/income", (req, res) => {
 app.get("/createdb", (req, res) => {
   let sql = "CREATE DATABASE group_homes";
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send("Database created");
   });
@@ -138,7 +155,7 @@ app.get("/create_table", (req, res) => {
   let sql =
     "CREATE TABLE Contact (name VARCHAR(255) NOT NULL, contact VARCHAR(255) NOT NULL UNIQUE, PRIMARY KEY (contact))";
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send("Created table");
     console.log("Created table");
@@ -150,7 +167,7 @@ app.get("/delete_table/:name", (req, res) => {
   let table = req.params.name;
   let sql = "DROP TABLE " + table;
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send("Deleted table: " + name);
     console.log("Deleted Table: " + name);
@@ -161,7 +178,7 @@ app.get("/delete_table/:name", (req, res) => {
 app.get("/show_databases", (req, res) => {
   let sql = "SHOW DATABASES";
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Showing databases");
@@ -171,7 +188,7 @@ app.get("/show_databases", (req, res) => {
 app.get("/show_tables", (req, res) => {
   let sql = "SHOW TABLES";
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Showing tables");
@@ -181,7 +198,7 @@ app.get("/show_tables", (req, res) => {
 app.get("/select/:table", (req, res) => {
   let sql = "SELECT * FROM " + req.params.table;
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Showing contents from " + req.params.table);
@@ -192,7 +209,7 @@ app.get("/use/:database", (req, res) => {
   let database = req.params.database;
   let sql = "USE " + database;
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Using group homes");
@@ -206,7 +223,7 @@ app.get("/add/:name/:contact", (req, res) => {
     "INSERT INTO Contact (name, contact)\n" +
     `VALUES (\"${name}\",\"${contact}\");\n`;
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("Add contact");
@@ -220,7 +237,7 @@ app.get("/", (req, res) => {
 app.post("/query", (req, res) => {
   let sql = req.body.query;
   db.query(sql, (err, result) => {
-    if (err) throw err;
+    if (err) console.log(err);
     console.log(result);
     res.send(result);
     console.log("query");
@@ -232,15 +249,3 @@ const PORT = "4000";
 app.listen(PORT, () => {
   console.log(`Started server on port ${PORT}`);
 });
-
-/*
-Schema:
-
-CREATE TABLE `Candidates`(
-    `ID` INT NOT NULL UNIQUE PRIMARY KEY,
-    `income` INT,
-    `family_type` VARCHAR(55),
-    `foster_experience` VARCHAR(55),
-    `contact` VARCHAR(55) NOT NULL
-);
- */

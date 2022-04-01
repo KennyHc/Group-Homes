@@ -20,7 +20,7 @@ function TableComponent({ content, deleteRow, title, noDeleteCol }) {
       return;
     } else {
       return (
-        <td className="justify-content-center">
+        <td className="d-flex justify-content-center">
           <Button className="btn-danger">
             <Trash
               onClick={async () => {
@@ -35,32 +35,33 @@ function TableComponent({ content, deleteRow, title, noDeleteCol }) {
 
   return (
     <div>
-      <Card border="secondary" style={{ margin: "70px" }}>
+      <Card border="secondary" style={{ margin: "100px" }}>
         <Card.Header>{title}</Card.Header>
-        <Card.Body>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                {columns.map((key, i) => (
-                  <th key={i}>{key}</th>
-                ))}
-                {!noDeleteCol && <th>Delete</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {content.map((row, i) => (
-                <tr key={i}>
-                  {columns.map((column, j) => (
-                    <td className="text-center" key={j}>
-                      {row[column]}
-                    </td>
-                  ))}
-                  {deleteColumn(row[columns[0]])}
-                </tr>
+
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              {columns.map((key, i) => (
+                <th className="text-center" key={i}>
+                  {key}
+                </th>
               ))}
-            </tbody>
-          </Table>
-        </Card.Body>
+              {!noDeleteCol && <th className="text-center">Delete</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {content.map((row, i) => (
+              <tr key={i}>
+                {columns.map((column, j) => (
+                  <td className="text-center" key={j}>
+                    {row[column]}
+                  </td>
+                ))}
+                {deleteColumn(row[columns[0]])}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </Card>
     </div>
   );
