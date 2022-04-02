@@ -9,12 +9,13 @@ import { Container, Col, Row } from "react-bootstrap";
 import AddPage from "./AddPage";
 
 function FormComponent() {
-  const [id, setId] = useState("");
+  const [id, setId] = useState();
   const [income, setIncome] = useState();
   const [exp, setExp] = useState();
   const [famType, setFamType] = useState();
   const [email, setEmail] = useState();
   const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
 
   const endpoint = "http://localhost:4000/";
 
@@ -29,7 +30,6 @@ function FormComponent() {
       exp: exp,
       famType: famType,
     });
-    //console.log(connect.data);
     console.log(response.data);
     if (response.status === 200) setSubmitted(true);
     return response.data;
@@ -38,7 +38,13 @@ function FormComponent() {
   const familyTypes = ["single", "common_law", "divorced", "married", "other"];
   const familyLabels = ["Single", "Common Law", "Divorced", "Married", "Other"];
 
-  useEffect(() => {}, [submitted]);
+  const validate = () => {
+    setValid(id && email);
+  };
+
+  useEffect(() => {
+    validate();
+  }, [submitted, id, email]);
 
   if (submitted)
     return (
@@ -55,7 +61,7 @@ function FormComponent() {
         <Card.Header>Register Candidate</Card.Header>
         <Card.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3">
               <Form.Label>Government Issued ID</Form.Label>
               <Form.Control
                 type="number"
@@ -66,7 +72,7 @@ function FormComponent() {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3">
               <Form.Label>Income</Form.Label>
               <InputGroup className="mb-3">
                 <InputGroup.Text>$</InputGroup.Text>
@@ -95,7 +101,7 @@ function FormComponent() {
             <Row>
               <Col>
                 {" "}
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3">
                   <Form.Label>Foster Experience</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
@@ -113,7 +119,7 @@ function FormComponent() {
               </Col>
               <Col>
                 {" "}
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3">
                   <Form.Label>Family type</Form.Label>
                   <Form.Select
                     aria-label="Default select example"
@@ -136,7 +142,8 @@ function FormComponent() {
             <Row>
               <Col>
                 <Button
-                  variant="info"
+                  variant={valid ? "info" : "secondary"}
+                  disabled={!valid}
                   className="float-end"
                   onClick={async () => {
                     await addCandidate();

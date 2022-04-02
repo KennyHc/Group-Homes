@@ -12,15 +12,16 @@ import AddPage from "./AddPage";
 import axios from "axios";
 
 function ChildFormComponent() {
-  const [id, setId] = useState("");
+  const [id, setId] = useState();
   const [name, setName] = useState();
   const [ethnicity, setEthnicity] = useState();
   const [birthday, setBirthday] = useState();
   const [gender, setGender] = useState();
-  const [gha, setGha] = useState(""); //groupHomeAddress
+  const [gha, setGha] = useState(); //groupHomeAddress
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
   const [msg, setMsg] = useState("");
 
   const ethnicities = [
@@ -67,7 +68,7 @@ function ChildFormComponent() {
     if (response.status === 200) {
       setMsg(`Successfully added ${name} into our system!`);
     }
-    if (gha === "") {
+    if (gha === undefined) {
       setMsg(
         `Unsuccessful operation, please specify a valid group home address!`
       );
@@ -76,7 +77,19 @@ function ChildFormComponent() {
     return response.data;
   };
 
-  useEffect(() => {}, [submitted]);
+  const validate = () => {
+    if (gha === undefined) return false;
+    if (id === undefined) return false;
+    if (name === undefined) return false;
+    if (birthday === undefined) return false;
+    if (ethnicity === undefined) return false;
+    if (gender === undefined) return false;
+    return true;
+  };
+
+  useEffect(() => {
+    setValid(validate());
+  }, [submitted, id, name, birthday, gender, gha, ethnicity]);
 
   if (submitted) return <AddPage message={msg}></AddPage>;
 
@@ -190,6 +203,7 @@ function ChildFormComponent() {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Start Date</Form.Label>
                   <Form.Control
+                    required
                     type="date"
                     placeholder="Enter start date"
                     onChange={(e) => {
@@ -215,8 +229,9 @@ function ChildFormComponent() {
             <Row>
               <Col>
                 <Button
-                  variant="info"
+                  variant={valid ? "info" : "secondary"}
                   className="float-end"
+                  disabled={!valid}
                   onClick={async () => {
                     await addChild();
                   }}

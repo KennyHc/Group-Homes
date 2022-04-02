@@ -18,6 +18,7 @@ function FosterFormComponent() {
   const [childIds, setChildIds] = useState([]);
   const [candidateIds, setCandidateIds] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
 
   const endpoint = "http://localhost:4000/";
 
@@ -38,6 +39,10 @@ function FosterFormComponent() {
     return response.data;
   };
 
+  const validate = () => {
+    setValid(candidateId && childId && date);
+  };
+
   useEffect(() => {
     const getCandidateIds = async () => {
       const ids = await api.post("/query", {
@@ -56,9 +61,11 @@ function FosterFormComponent() {
       return ids;
     };
 
+    validate();
+
     getChildIds().catch((e) => e.message);
     getCandidateIds().catch((e) => e.message);
-  }, [submitted]);
+  }, [submitted, candidateId, childId, date]);
 
   if (submitted)
     return (
@@ -134,7 +141,8 @@ function FosterFormComponent() {
             <Row>
               <Col>
                 <Button
-                  variant="info"
+                  variant={valid ? "info" : "secondary"}
+                  disabled={!valid}
                   className="float-end"
                   onClick={async () => {
                     await addRelation();
